@@ -1,23 +1,36 @@
 import { useEffect, useState } from "react";
+import { connectWallet, getCurrentWalletConnected, } from "./utils/interact";
+
+
 
 const Minter = (props) => {
 
   //State variables
-  const [walletAddress, setWallet] = useState("");
-  const [status, setStatus] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [url, setURL] = useState("");
+  const [walletAddress, setWallet] = useState(""); //walletAddress stores user's wallet address
+  const [status, setStatus] = useState(""); // status is a string that contains the message to display at the bottom of the UI
+  const [name, setName] = useState(""); //name is the string that stores the NFT'S name
+  const [description, setDescription] = useState(""); //description stores the NFT's description.
+  const [url, setURL] = useState(""); // url is the ling to the NFT's digital asset
  
-  useEffect(async () => { //TODO: implement
-    
+  useEffect(() => { //TODO: implement
+    async function Main (){
+      const {address, status} = await getCurrentWalletConnected();
+      setWallet(address);
+      setStatus(status);
+
+
+    }
+    Main();
   }, []);
 
-  const connectWalletPressed = async () => { //TODO: implement
+  const connectWalletPressed = async () => { // this function will be called to called to connect the user's Metamask wallet
+    const walletResponse = await connectWallet();
+    setStatus(walletResponse.status);
+    setWallet(walletResponse.address);
    
   };
 
-  const onMintPressed = async () => { //TODO: implement
+  const onMintPressed = async () => { //This function is called to mint the user's NFT
     
   };
 
@@ -66,7 +79,7 @@ const Minter = (props) => {
       </button>
       <p id="status">
         {status}
-        Hey connect to the connect wallet button
+        
       </p>
     </div>
   );
